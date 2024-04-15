@@ -1,0 +1,176 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+//display the available vehicle and corresponding price per mile
+//by using settw,setfill and left alignmnet
+//you can edit if you would like to change data
+
+void printVehicles(string vehicles[], double pricesPerMiles[], int arraySize)
+{
+    cout << left;
+    cout << endl;
+    cout << setfill('-');
+    cout << setw(29) << "" << "Transportation Request Form";
+    cout << setw(29) << "" << endl; ;
+    //print header    
+    cout << setfill(' ');
+    cout << "| " << setw(40) << "Vehicle Type" << "| " << " " << setw(40) << "Price/Mile" << "| " << endl;
+    cout << setfill('-');
+    cout << setw(85) << "" << endl;
+
+    //print Vehicle
+    for (int i = 0; i < arraySize; i++)
+    {
+        cout << setfill(' ');
+        //index is used to print vehicle number
+        cout << "| " << setw(40) << to_string(i + 1) + ") " + vehicles[i] << "| " << "$" << setw(40) << pricesPerMiles[i] << "| " << endl;
+        cout << setfill('-');
+        cout << setw(85) << "" << endl;
+    }
+    cout << setfill(' '); //reset fill to blank
+}
+
+//you can edit if you would like to change data
+void fillVehiclesInfo(string vehicles[], double pricesPerMiles[], int arraySize)
+{
+    int index = 0; //start from first element
+    if (index < arraySize)
+    {
+        vehicles[index] = "SUV";
+        pricesPerMiles[index] = 1.5;
+    }
+    index = index + 1; //go to the next element
+    if (index < arraySize)
+    {
+        vehicles[index] = "Sedan";
+        pricesPerMiles[index] = 0.39;
+    }
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Minivan";
+        pricesPerMiles[index] = 0.59;
+    }
+
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Sports Car";
+        pricesPerMiles[index] = 0.75;
+    }
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Hatchback";
+        pricesPerMiles[index] = 0.45;
+    }
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Crossover";
+        pricesPerMiles[index] = 0.50;
+    }
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Limousine";
+        pricesPerMiles[index] = 1.99;
+    }
+    index = index + 1;
+    if (index < arraySize)
+    {
+        vehicles[index] = "Station wagon";
+        pricesPerMiles[index] = 0.99;
+    }
+
+}
+
+
+int main()
+{
+    const int NUMBER_OF_VEHICLES = 8; //available vehicles, this is used as size of parallel arrays
+    //Parallel Arrays
+    string vehicles[NUMBER_OF_VEHICLES];  //to store vehicle names
+    double pricesPerMiles[NUMBER_OF_VEHICLES]; //to store price per mile
+
+    //Variables
+    string name = "";
+    string currentlocation = "";
+    string destination = "";
+    double destDistance = 0.0;
+    double driveCost = 0.0;
+    int vehicleIndex;
+    double total;
+
+
+    cout << fixed; //outputs floating-point numbers in a fixed decimal format
+    cout << setprecision(2); //formats the output of decimal numbers to two decimal places
+
+    //this call fills array with the menu vehicle and price per mile
+    //note in C++ by default array are passed as reference 
+    fillVehiclesInfo(vehicles, pricesPerMiles, NUMBER_OF_VEHICLES);
+
+    //this  call display's available vehicles
+    printVehicles(vehicles, pricesPerMiles, NUMBER_OF_VEHICLES);
+
+    cout << "\nPlease Note: if distance is less than 5 miles fix dirver charge of $5 will be added,";
+    cout << "\nif distance is greater than 5 miles fix dirver charge of $7 will be added.!";
+    cout << endl;
+    cout << "\nWhat vehicle type would you like to book (enter Index): ";
+    cin >> vehicleIndex;
+    if (vehicleIndex < 1 || vehicleIndex > NUMBER_OF_VEHICLES)
+    {
+        cout << "\nEntered vehicle index is not valid, try again! ";
+        return 0;
+    }
+
+    cout << endl;
+    cin.ignore(); //line clears orignores the newline from the stream.
+    //Get Name
+    cout << "Enter your Name: ";
+    //cin >> name;
+    getline(cin, name);
+    cout << endl;
+
+
+    //Get Current Location
+    cout << "Enter your Current location: ";
+    getline(cin, currentlocation);
+    cout << endl;
+
+
+    //Get Destination
+    cout << "Enter your destination: ";
+    getline(cin, destination);
+    cout << endl;
+
+
+    //Get Destination length in miles
+    cout << "How far away is your destination in miles? ";
+    cin >> destDistance;
+    if (destDistance <= 0)
+    {
+        cout << "\nEntered distance is not valid it has to be greater than zreo, try again! ";
+        return 0;
+    }
+
+    cout << endl;
+    if (destDistance < 5)
+    {
+        driveCost = 5;
+    }
+    else
+    {
+        driveCost = 7;
+    }
+    total = driveCost + destDistance * pricesPerMiles[vehicleIndex - 1]; //array index starts from zero
+    cout << "\nHi " << name << " total cost for traveling from " << currentlocation << " to " << destination;
+    cout << "\nin the vehicle type " << vehicles[vehicleIndex - 1];
+    cout << "\nfor the distance of " << destDistance << " miles is (including drive cost): $" << total;
+    cout << endl;
+    cout << "\nThank you for using Transportation Request Form!";
+    cout << endl;
+    return 0;
+}
